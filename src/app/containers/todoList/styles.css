@@ -1,0 +1,17 @@
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #ee6192 50%, #e55c8a 50%);
+}
+
+.list {
+  width: 400px;
+  height: 500px;
+  background: #3c424a;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px #3c424a;
+}

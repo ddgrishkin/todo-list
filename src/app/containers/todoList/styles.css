@@ -8,9 +8,17 @@
   background: linear-gradient(135deg, #ee6192 50%, #e55c8a 50%);
 }
 
-.list {
+.container h1 {
+  font-size: 18px;
+  color: #3c424a;
+  font-weight: normal;
+  text-align: center;
+}
+
+.panel {
   width: 400px;
   height: 500px;
+  padding: 10px;
   background: #3c424a;
   border-radius: 4px;
   box-shadow: 0 2px 4px #3c424a;

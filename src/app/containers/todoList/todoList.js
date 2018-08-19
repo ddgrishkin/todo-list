@@ -5,7 +5,12 @@ import connect from 'redux-connect-decorator';
 import { Input } from 'components-ui';
 import TodoItem from './TodoItem';
 
-import { createItem, updateItem, changeField } from './__data__/actions';
+import { 
+  createItem,
+  updateItem,
+  changeField,
+  receiveItems,
+} from './__data__/actions';
 
 import './styles/list.css';
 import styles from './styles/list.css.json';
@@ -21,6 +26,7 @@ const KEYCODE = { ENTER: 13 };
   }),
   {
     changeField,
+    receiveItems,
     updateItem,
     createItem,
   }
@@ -30,9 +36,13 @@ class TodoList extends React.PureComponent {
   constructor(props) {
     super(props);
     this.inputRef = React.createRef();
+
+    this.props.receiveItems();
   }
 
   componentDidUpdate() {
+    this.placeDataToStorage();
+
     if (this.props.active) {
       this.inputRef.current.focus();
     }
@@ -40,6 +50,14 @@ class TodoList extends React.PureComponent {
 
   componentDidMount() {
     this.inputRef.current.focus();
+  }
+
+  placeDataToStorage() {
+    const { allIds, byId } = this.props;
+    const ls = window.localStorage;
+
+    ls.setItem('allIds', JSON.stringify(allIds));
+    ls.setItem('byId', JSON.stringify(byId));
   }
 
   @autobind

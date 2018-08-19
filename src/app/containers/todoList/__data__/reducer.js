@@ -45,6 +45,8 @@ const todoItem = (state = {}, action) => {
 
 const allIds = (state = [], action) => {
   switch(action.type) {
+    case types.TODO_LIST_RECEIVE_ITEMS:
+      return action.allIds;
     case types.TODO_LIST_DELETE_ITEM:
       // TODO Use immutable instead
       state.splice(state.indexOf(action.id), 1);
@@ -59,6 +61,8 @@ const allIds = (state = [], action) => {
 
 const byId = (state = {}, action) => {
   switch(action.type) {
+    case types.TODO_LIST_RECEIVE_ITEMS:
+      return action.byId;
     case types.TODO_LIST_DELETE_ITEM:
       // TODO Use immutable instead
       delete state[action.id];

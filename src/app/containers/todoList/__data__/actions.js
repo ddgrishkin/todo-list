@@ -1,12 +1,12 @@
 import uuidv4 from 'uuid/v4';
 import * as types from './types';
 
-const localStorage = window.localStorage;
+const ls = window.localStorage;
 
 export const receiveItems = () => ({
   type: types.TODO_LIST_RECEIVE_ITEMS,
-  allIds: JSON.parse(localStorage.getItem('allIds')),
-  byId: JSON.parse(localStorage.getItem('byId')),
+  allIds: JSON.parse(ls.getItem('allIds')),
+  byId: JSON.parse(ls.getItem('byId')),
 });
 
 export const createItem = (text) => ({

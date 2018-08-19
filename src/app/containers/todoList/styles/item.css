@@ -1,0 +1,54 @@
+.item {
+  position: relative;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  margin-bottom: 10px;
+  padding-right: 40px;
+}
+
+.text {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  color: #b3bbc4;
+  margin-left: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.item_completed .text {
+  color: #7b7d80;
+  text-decoration: line-through;
+}
+
+.menu {
+  position: absolute;
+  right: 0;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
+.edit,
+.delete {
+  width: 15px;
+  height: 15px;
+  background-size: 15px;
+  background-position: center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+.item_completed .edit {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+.edit {
+  background-image: url('images/edit.svg');
+}
+
+.delete {
+  background-image: url('images/trash.svg');
+}

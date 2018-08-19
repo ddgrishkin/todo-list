@@ -1,45 +1,59 @@
 import React from 'react';
+import autobind from 'autobind-decorator';
 import connect from 'redux-connect-decorator';
 
-import { TodoItem } from 'components';
-import { Button } from 'components-ui';
+import { Input } from 'components-ui';
+import TodoItem from './TodoItem';
 
-import { createTodoItem, completeTodoItem } from './actions';
+import { createTodoItem, changeField } from './__data__/actions';
 
-import './styles.css';
-import styles from './styles.css.json'; 
+import './styles/list.css';
+import styles from './styles/list.css.json';
+
+const KEYCODE = { ENTER: 13 };
 
 @connect(
   (state) => ({
-    allIds: state.todoList.allIds,
     byId: state.todoList.byId,
+    allIds: state.todoList.allIds,
+    currentTask: state.todoList.currentTask,
   }),
-  (dispatch) => ({
-    createTodoItem: (text) => dispatch(createTodoItem(text)),
-    completeTodoItem: (id) => dispatch(completeTodoItem(id)),
-    // deleteTodoItem: (id) => dispatch(deleteTodoItem(id))
-  })
+  {
+    changeField,
+    createTodoItem,
+  }
 )
 
-class TodoList extends React.Component {
-  renderTodoItem({ id, text, completed }) {
-    return (
-      <TodoItem 
-        key={id}
-        id={id}
-        text={text}
-        completed={completed}
-        onComplete={this.props.completeTodoItem}
-      />
-    );
+class TodoList extends React.PureComponent {
+  @autobind
+  onInputKeyPress(e) {
+    if (e.charCode === KEYCODE.ENTER) {
+      if (this.props.currentTask.replace(/\s+/g, '') !== '') {
+        this.props.createTodoItem(this.props.currentTask);
+        this.props.changeField('');
+      }
+    }
   }
 
   renderTodoListItems() {
     const { allIds, byId } = this.props;
 
-    return allIds.map((id) => {
-      return this.renderTodoItem(byId[id]);
-    });
+    if (allIds.length) {
+      return allIds.map((id) => {
+        const { text, completed } = byId[id];
+
+        return (
+          <TodoItem 
+            id={id}
+            key={id}
+            text={text}
+            completed={completed}
+          />
+        );
+      });
+    }
+
+    return null;
   }
 
   render() {
@@ -47,9 +61,13 @@ class TodoList extends React.Component {
       <div className={styles.container}>
         <h1>TODO List</h1>
         <div className={styles.panel}>
-          <div>
-            <Button>Create</Button>
-          </div>
+          <Input 
+            maxLength={45}
+            placeholder="Add a task..."
+            value={this.props.currentTask}
+            onChange={this.props.changeField}
+            onKeyPress={this.onInputKeyPress}
+          />
 
           <div className={styles.list}>
             {this.renderTodoListItems()}

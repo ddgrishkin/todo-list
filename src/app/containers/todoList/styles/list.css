@@ -18,8 +18,12 @@
 .panel {
   width: 400px;
   height: 500px;
-  padding: 10px;
+  padding: 20px;
   background: #3c424a;
   border-radius: 4px;
   box-shadow: 0 2px 4px #3c424a;
+}
+
+.list {
+  padding: 20px 0;
 }

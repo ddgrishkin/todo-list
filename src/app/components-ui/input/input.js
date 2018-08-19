@@ -6,6 +6,15 @@ import './styles.css';
 import styles from './styles.css.json';
 
 class Input extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.inputRef = React.createRef();
+  }
+ 
+  focus() {
+    this.inputRef.current.focus();
+  }
+
   @autobind
   onChange(e) {
     this.props.onChange(e.target.value);
@@ -16,12 +25,14 @@ class Input extends React.PureComponent {
       onKeyPress,
       placeholder,
       maxLength,
+      value,
     } = this.props;
 
     return (
       <input
         type="text"
-        value={this.props.value}
+        value={value}
+        ref={this.inputRef}
         placeholder={placeholder}
         maxLength={maxLength}
         className={styles.input}

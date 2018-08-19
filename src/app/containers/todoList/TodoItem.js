@@ -28,37 +28,49 @@ const cn = compose(
     id: ownProps.id,
     text: ownProps.text,
     completed: ownProps.completed,
+    active: state.todoList.active,
   }),
   {
     deleteItem,
     completeItem,
-    // completeItem,
-    // editItem,
+    editItem,
   }
 )
 
 class TodoItem extends React.Component {
   @autobind
   handleSelect(value) {
-    this.props.completeItem(this.props.id, value);
+    if (this.props.active !== this.props.id) {
+      this.props.completeItem(this.props.id, value);
+    }
   }
 
   @autobind
   handleDelete() {
-    console.log('delete');
-    this.props.deleteItem(this.props.id);
+    if (this.props.active !== this.props.id) {
+      this.props.deleteItem(this.props.id);
+    }
+  }
+
+  @autobind
+  handleEdit() {
+    if (!this.props.completed) {
+      this.props.editItem(this.props.id, this.props.text);
+    }
   }
 
   render() {
-    const { completed, text } = this.props;
+    const { completed, text, active, id } = this.props;
+    const editable = active === id;
     const className = classnames(
       styles.item,
-      ...cn({ completed })
+      ...cn({ completed, editable })
     );
 
     return (
       <div className={className}>
         <Checkbox 
+          className={styles.checkbox}
           onSelect={this.handleSelect}
           checked={completed}
         />

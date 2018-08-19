@@ -5,7 +5,7 @@ import connect from 'redux-connect-decorator';
 import { Input } from 'components-ui';
 import TodoItem from './TodoItem';
 
-import { createTodoItem, changeField } from './__data__/actions';
+import { createItem, updateItem, changeField } from './__data__/actions';
 
 import './styles/list.css';
 import styles from './styles/list.css.json';
@@ -16,21 +16,42 @@ const KEYCODE = { ENTER: 13 };
   (state) => ({
     byId: state.todoList.byId,
     allIds: state.todoList.allIds,
-    currentTask: state.todoList.currentTask,
+    active: state.todoList.active,
+    task: state.todoList.task,
   }),
   {
     changeField,
-    createTodoItem,
+    updateItem,
+    createItem,
   }
 )
 
 class TodoList extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.inputRef = React.createRef();
+  }
+
+  componentDidUpdate() {
+    if (this.props.active) {
+      this.inputRef.current.focus();
+    }
+  }
+
+  componentDidMount() {
+    this.inputRef.current.focus();
+  }
+
   @autobind
   onInputKeyPress(e) {
+    // TODO Add button for mobile
     if (e.charCode === KEYCODE.ENTER) {
-      if (this.props.currentTask.replace(/\s+/g, '') !== '') {
-        this.props.createTodoItem(this.props.currentTask);
-        this.props.changeField('');
+      const { task, active } = this.props;
+
+      if (task && task.replace(/\s+/g, '') !== '') {
+        active 
+          ? this.props.updateItem(active, task) 
+          : this.props.createItem(task);
       }
     }
   }
@@ -56,6 +77,16 @@ class TodoList extends React.PureComponent {
     return null;
   }
 
+  renderEmptyList() {
+    return (
+      <div className={styles.empty}>
+        <p>Sorry, you have no tasks...</p>
+        <p>Print some task in the input overhead.</p>
+        <p>Then press ENTER to add.</p>
+      </div>
+    )
+  }
+
   render() {
     return (
       <div className={styles.container}>
@@ -63,14 +94,18 @@ class TodoList extends React.PureComponent {
         <div className={styles.panel}>
           <Input 
             maxLength={45}
+            ref={this.inputRef}
+            value={this.props.task}
             placeholder="Add a task..."
-            value={this.props.currentTask}
             onChange={this.props.changeField}
             onKeyPress={this.onInputKeyPress}
           />
 
           <div className={styles.list}>
-            {this.renderTodoListItems()}
+            {this.props.allIds.length 
+              ? this.renderTodoListItems()
+              : this.renderEmptyList()
+            }
           </div>
         </div>
       </div>

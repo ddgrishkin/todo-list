@@ -26,8 +26,9 @@ class Checkbox extends React.PureComponent {
   }
 
   render() {
-    const { checked } = this.props;
+    const { checked, className } = this.props;
     const classname = classnames(
+      className,
       styles.checkbox,
       ...cn({ checked }),
     );
@@ -44,12 +45,14 @@ class Checkbox extends React.PureComponent {
 
 Checkbox.propTypes = {
   onSelect: PropTypes.func,
-  checked: PropTypes.bool, 
+  checked: PropTypes.bool,
+  className: PropTypes.string,
 };
 
 Checkbox.defaultProps = {
   onSelect: () => {},
   checked: false,
+  className: '',
 };
 
 export default Checkbox;

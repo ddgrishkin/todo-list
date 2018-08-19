@@ -1,7 +1,7 @@
 import uuidv4 from 'uuid/v4';
 import * as types from './types';
 
-export const createTodoItem = (text) => ({
+export const createItem = (text) => ({
   type: types.TODO_LIST_CREATE_ITEM,
   id: uuidv4(),
   text,
@@ -18,8 +18,15 @@ export const deleteItem = (id) => ({
   id,
 });
 
-export const editItem = (id) => ({
+export const editItem = (id, value) => ({
   type: types.TODO_LIST_EDIT_ITEM,
+  value,
+  id,
+});
+
+export const updateItem = (id, value) => ({
+  type: types.TODO_LIST_UPDATE_ITEM,
+  value,
   id,
 });
 

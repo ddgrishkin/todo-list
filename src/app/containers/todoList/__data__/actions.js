@@ -5,8 +5,8 @@ const ls = window.localStorage;
 
 export const receiveItems = () => ({
   type: types.TODO_LIST_RECEIVE_ITEMS,
-  allIds: JSON.parse(ls.getItem('allIds')),
-  byId: JSON.parse(ls.getItem('byId')),
+  allIds: JSON.parse(ls.getItem('allIds')) || [],
+  byId: JSON.parse(ls.getItem('byId')) || {},
 });
 
 export const createItem = (text) => ({
